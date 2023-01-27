@@ -49,25 +49,27 @@ export const Intro = () => {
 
       <div>
         <ul>
-          {fetchedData.map(({ date, name, email, thingsToQuote }, index) => {
-            return (
-              <li key={index} style={{ marginBottom: '70px' }}>
-                {date} | {name} | {email}
-                {Object.entries(thingsToQuote).map(([key, value], index) => {
-                  if (typeof value === 'object') {
-                    return (
-                      <TeethChartCheckboxGroup
-                        {...value}
-                        label={key}
-                        key={key}
-                        readOnly={true}
-                      />
-                    );
-                  }
-                })}
-              </li>
-            );
-          })}
+          {fetchedData
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .map(({ date, name, email, thingsToQuote }, index) => {
+              return (
+                <li key={index} style={{ marginBottom: '70px' }}>
+                  {date} | {name} | {email}
+                  {Object.entries(thingsToQuote).map(([key, value], index) => {
+                    if (typeof value === 'object') {
+                      return (
+                        <TeethChartCheckboxGroup
+                          {...value}
+                          label={key}
+                          key={key}
+                          readOnly={true}
+                        />
+                      );
+                    }
+                  })}
+                </li>
+              );
+            })}
         </ul>
       </div>
     </div>
