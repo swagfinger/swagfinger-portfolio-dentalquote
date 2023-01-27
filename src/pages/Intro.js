@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { TeethChartCheckboxGroup } from '../components/forms/TeethChartCheckboxGroup';
 
 export const Intro = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -44,14 +45,26 @@ export const Intro = () => {
 
   return (
     <div>
-      <h1>list</h1>
+      <h1>Quotes</h1>
 
       <div>
         <ul>
-          {fetchedData.map(({ name, email }, index) => {
+          {fetchedData.map(({ date, name, email, thingsToQuote }, index) => {
             return (
-              <li key={index}>
-                {name} | {email}
+              <li key={index} style={{ marginBottom: '70px' }}>
+                {date} | {name} | {email}
+                {Object.entries(thingsToQuote).map(([key, value], index) => {
+                  if (typeof value === 'object') {
+                    return (
+                      <TeethChartCheckboxGroup
+                        {...value}
+                        label={key}
+                        key={key}
+                        readOnly={true}
+                      />
+                    );
+                  }
+                })}
               </li>
             );
           })}

@@ -16,6 +16,17 @@ export const QuoteForm = ({ onAdd }) => {
 
   const quoteReducer = (state, action) => {
     switch (action.type) {
+      case 'thingsToQuote':
+        return {
+          ...state,
+          thingsToQuote: {
+            ...state.thingsToQuote,
+            [action.payload.label]: {
+              topTeeth: action.payload.topTeeth,
+              bottomTeeth: action.payload.bottomTeeth,
+            },
+          },
+        };
       case 'update':
         console.log('payload: ', action.payload);
         return {
@@ -29,14 +40,15 @@ export const QuoteForm = ({ onAdd }) => {
   };
 
   const MENU = [
-    { label: 'ten', value: 10 },
-    { label: 'twenty', value: 20 },
-    { label: 'thirty', value: 30 },
+    { label: 'Filling', value: 10 },
+    { label: 'Crowns', value: 20 },
+    { label: 'Veneers', value: 30 },
   ];
 
   const initialState = {
     menuItems: MENU.slice(),
     options: [],
+    thingsToQuote: {},
   };
   const [state, dispatch] = useReducer(quoteReducer, initialState);
 
@@ -79,6 +91,18 @@ export const QuoteForm = ({ onAdd }) => {
     });
   };
 
+  const toothchartUpdateHandler = (updateObject) => {
+    console.log('at parent: ', updateObject);
+    dispatch({
+      type: 'thingsToQuote',
+      payload: {
+        label: updateObject.label,
+        topTeeth: updateObject.topTeeth,
+        bottomTeeth: updateObject.bottomTeeth,
+      },
+    });
+  };
+
   const onSubmitHandler = (event) => {
     event.preventDefault();
     //reading entered values 1. use useState to capture entered values
@@ -87,12 +111,20 @@ export const QuoteForm = ({ onAdd }) => {
     //read access via current property
     const enteredName = nameInputRef.current.value;
     const enteredEmail = emailInputRef.current.value;
+    console.log('thingsToQuote: ', state.thingsToQuote);
+
+    //date
+    let date = new Date();
+    let dateString = date.toISOString().slice(0, 10);
+    let timeString = date.toLocaleTimeString();
+    let formattedDate = `${dateString} ${timeString}`;
 
     //prepare collected values for sending
     const collectedData = {
       name: enteredName,
       email: enteredEmail,
-      options: [],
+      thingsToQuote: state.thingsToQuote,
+      date: formattedDate,
     };
 
     onAdd(collectedData);
@@ -108,24 +140,35 @@ export const QuoteForm = ({ onAdd }) => {
         }}
         noValidate
         autoComplete='off'
+        onSubmit={onSubmitHandler}
       >
         <FormControl fullWidth>
-          <TextField id='outlined-basic' label='name' variant='outlined' />
+          <TextField
+            id='outlined-basic'
+            label='name'
+            variant='outlined'
+            inputRef={nameInputRef}
+          />
         </FormControl>
         <FormControl fullWidth>
-          <TextField id='outlined-basic' label='email' variant='outlined' />
+          <TextField
+            id='outlined-basic'
+            label='email'
+            variant='outlined'
+            inputRef={emailInputRef}
+          />
         </FormControl>
         {state.menuItems.length > 0 && (
           <div>
             <h3>add to quote:</h3>
             <FormControl fullWidth>
-              <InputLabel id='demo-simple-select-label'>Age</InputLabel>
+              <InputLabel id='job-type'>Job type</InputLabel>
 
               <Select
-                labelId='demo-simple-select-label'
-                id='demo-simple-select'
+                labelId='job-type-label'
+                id='job-type'
                 value=''
-                label='Age'
+                label='Job type'
                 onChange={handleChange}
               >
                 {state.menuItems.map(({ value, label }, index) => {
@@ -147,7 +190,8 @@ export const QuoteForm = ({ onAdd }) => {
                 return (
                   <div key={'option_' + item.label + item.value}>
                     <TeethChartCheckboxGroup
-                      label={`${item.label}|${item.value}`}
+                      label={item.label}
+                      onChange={toothchartUpdateHandler}
                     />
                     <button type='button' onClick={() => removeOption(item)}>
                       remove
