@@ -51,10 +51,13 @@ export const Intro = () => {
         <ul>
           {fetchedData
             .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .map(({ date, name, email, thingsToQuote }, index) => {
+            .map(({ date, name, email, thingsToQuote, id }, index) => {
               return (
                 <li key={index} style={{ marginBottom: '70px' }}>
-                  {date} | {name} | {email}
+                  <div>
+                    {date} | {name} | {email}
+                  </div>
+                  <div>quote id: {id}</div>
                   {Object.entries(thingsToQuote).map(([key, value], index) => {
                     if (typeof value === 'object') {
                       return (
