@@ -61,9 +61,13 @@ export const TeethChartCheckboxGroup = ({
 
   return (
     <div>
-      <FormControl component='fieldset'>
+      <FormControl component='fieldset' style={{ display: 'flex' }}>
         <FormLabel component='legend'>top teeth</FormLabel>
-        <FormGroup aria-label='position' row>
+        <FormGroup
+          aria-label='position'
+          row
+          style={{ display: 'flex', justifyContent: 'space-evenly' }}
+        >
           {topTeethSelected.map((tooth, index) => {
             const name = `${label}_top`;
 
@@ -74,7 +78,7 @@ export const TeethChartCheckboxGroup = ({
                   <Checkbox
                     name={name}
                     checked={tooth === 1 ? true : false}
-                    style={{ padding: 0, margin: '7px' }}
+                    style={{ padding: 0, margin: '7px 1px' }}
                     onChange={(event) => {
                       console.log(name, index, event.target.checked);
                       onTopChangeHandler(index, event.target.checked);
@@ -89,8 +93,13 @@ export const TeethChartCheckboxGroup = ({
             );
           })}
         </FormGroup>
+
         <FormLabel component='legend'>bottom teeth</FormLabel>
-        <FormGroup aria-label='position' row>
+        <FormGroup
+          aria-label='position'
+          row
+          style={{ display: 'flex', justifyContent: 'space-evenly' }}
+        >
           {bottomTeethSelected.map((tooth, index) => {
             const name = `${label}_bottom`;
 
@@ -101,7 +110,7 @@ export const TeethChartCheckboxGroup = ({
                   <Checkbox
                     name={name}
                     checked={tooth === 1 ? true : false}
-                    style={{ padding: 0, margin: '7px' }}
+                    style={{ padding: 0, margin: '7px 1px' }}
                     onChange={(event) => {
                       console.log(name, index, event.target.checked);
                       onBotChangeHandler(index, event.target.checked);
