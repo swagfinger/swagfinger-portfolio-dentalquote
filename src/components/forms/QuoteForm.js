@@ -140,8 +140,12 @@ export const QuoteForm = ({ onAdd }) => {
     const enteredName = nameInputRef.current.value;
     const enteredEmail = emailInputRef.current.value;
     console.log('thingsToQuote: ', state.thingsToQuote);
-    if (Object.keys(state.thingsToQuote).length === 0) {
-      alert('quote is empty');
+    if (
+      Object.keys(state.thingsToQuote).length === 0 ||
+      enteredName.length === 0 ||
+      enteredEmail.length === 0
+    ) {
+      alert('missing information');
     } else {
       //date
       let date = new Date();
