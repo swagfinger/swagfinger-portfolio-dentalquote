@@ -118,22 +118,23 @@ export const TeethChartCheckboxGroup = ({
           })}
         </FormGroup>
       </FormControl>
-      <br />
-      <br />
-      {/* notes */}
 
+      {/* notes */}
       {(notes.length > 0 || !readOnly) && (
-        <FormControl fullWidth>
-          <TextField
-            label='notes'
-            variant='outlined'
-            value={notesForJob}
-            onChange={onNotesChangeHandler}
-            disabled={readOnly === true ? true : false}
-          />
-        </FormControl>
+        <>
+          <br />
+          <br />
+          <FormControl fullWidth>
+            <TextField
+              label='notes'
+              variant='outlined'
+              value={notesForJob}
+              onChange={onNotesChangeHandler}
+              disabled={readOnly === true ? true : false}
+            />
+          </FormControl>
+        </>
       )}
-      <br />
       <br />
       <br />
     </div>
