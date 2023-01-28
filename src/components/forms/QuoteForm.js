@@ -24,6 +24,7 @@ export const QuoteForm = ({ onAdd }) => {
             [action.payload.label]: {
               topTeeth: action.payload.topTeeth,
               bottomTeeth: action.payload.bottomTeeth,
+              notes: action.payload.notes,
             },
           },
         };
@@ -99,6 +100,7 @@ export const QuoteForm = ({ onAdd }) => {
         label: updateObject.label,
         topTeeth: updateObject.topTeeth,
         bottomTeeth: updateObject.bottomTeeth,
+        notes: updateObject.notes,
       },
     });
   };

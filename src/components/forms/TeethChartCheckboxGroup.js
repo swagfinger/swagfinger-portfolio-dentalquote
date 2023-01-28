@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
-import { css } from '@emotion/css';
 
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import TextField from '@mui/material/TextField';
 
 export const TeethChartCheckboxGroup = ({
   label,
   totalTeeth = 14,
   topTeeth = [],
   bottomTeeth = [],
+  notes = '',
   onChange = () => {},
   readOnly = false,
 }) => {
@@ -22,18 +23,22 @@ export const TeethChartCheckboxGroup = ({
     bottomTeeth.length ? bottomTeeth : new Array(totalTeeth).fill(0)
   );
 
+  const [notesForJob, setNotesForJob] = useState(notes.length ? notes : '');
+
   useEffect(() => {
     console.log('--------------------------------------------');
     console.log(`${label}`);
     console.log('topTeethSelected: ', topTeethSelected);
     console.log('bottomTeethSelected: ', bottomTeethSelected);
     console.log('--------------------------------------------');
+
     onChange({
       label: label,
       topTeeth: topTeethSelected,
       bottomTeeth: bottomTeethSelected,
+      notes: notesForJob,
     });
-  }, [topTeethSelected, bottomTeethSelected]);
+  }, [topTeethSelected, bottomTeethSelected, notesForJob]);
 
   const onTopChangeHandler = (index, checked) => {
     console.log(index, checked);
@@ -47,6 +52,11 @@ export const TeethChartCheckboxGroup = ({
     const newValues = [...bottomTeethSelected];
     newValues[index] = checked ? 1 : 0;
     setBotTeethSelected(newValues);
+  };
+
+  const onNotesChangeHandler = (event) => {
+    console.log('notes: ', event.target.value);
+    setNotesForJob(event.target.value);
   };
 
   return (
@@ -108,6 +118,24 @@ export const TeethChartCheckboxGroup = ({
           })}
         </FormGroup>
       </FormControl>
+      <br />
+      <br />
+      {/* notes */}
+
+      {(notes.length > 0 || !readOnly) && (
+        <FormControl fullWidth>
+          <TextField
+            label='notes'
+            variant='outlined'
+            value={notesForJob}
+            onChange={onNotesChangeHandler}
+            disabled={readOnly === true ? true : false}
+          />
+        </FormControl>
+      )}
+      <br />
+      <br />
+      <br />
     </div>
   );
 };
