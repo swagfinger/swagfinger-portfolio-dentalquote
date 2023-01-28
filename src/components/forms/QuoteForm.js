@@ -13,6 +13,7 @@ export const QuoteForm = ({ onAdd }) => {
   console.log('QuoteForm');
   const nameInputRef = useRef();
   const emailInputRef = useRef();
+  const selectRef = useRef();
 
   const quoteReducer = (state, action) => {
     switch (action.type) {
@@ -28,6 +29,13 @@ export const QuoteForm = ({ onAdd }) => {
             },
           },
         };
+      case 'removeFromThingsToQuote':
+        const updated = { ...action.payload };
+        return {
+          ...state,
+          thingsToQuote: updated,
+        };
+
       case 'update':
         console.log('payload: ', action.payload);
         return {
@@ -56,6 +64,8 @@ export const QuoteForm = ({ onAdd }) => {
   //interacting with select component
   const handleChange = (event) => {
     //get item in menu
+    console.log('event.target: ', event.target);
+
     let foundItem = state.menuItems.find((item) => {
       return event.target.value === item.value;
     });
@@ -90,6 +100,22 @@ export const QuoteForm = ({ onAdd }) => {
         options: updatedOptions,
       },
     });
+
+    //remove from thingsToQuote
+    const thingsToQuoteTemp = Object.entries(state.thingsToQuote).filter(
+      ([key, value]) => {
+        console.log('key: ', key);
+        console.log('value:', value);
+        return key !== item.label;
+      }
+    );
+
+    console.log('thingsToQuoteTemp:', Object.fromEntries(thingsToQuoteTemp));
+
+    dispatch({
+      type: 'removeFromThingsToQuote',
+      payload: Object.fromEntries(thingsToQuoteTemp),
+    });
   };
 
   const toothchartUpdateHandler = (updateObject) => {
@@ -114,22 +140,57 @@ export const QuoteForm = ({ onAdd }) => {
     const enteredName = nameInputRef.current.value;
     const enteredEmail = emailInputRef.current.value;
     console.log('thingsToQuote: ', state.thingsToQuote);
+    if (Object.keys(state.thingsToQuote).length === 0) {
+      alert('quote is empty');
+    } else {
+      //date
+      let date = new Date();
+      let dateString = date.toISOString().slice(0, 10);
+      let timeString = date.toLocaleTimeString();
+      let formattedDate = `${dateString} ${timeString}`;
 
-    //date
-    let date = new Date();
-    let dateString = date.toISOString().slice(0, 10);
-    let timeString = date.toLocaleTimeString();
-    let formattedDate = `${dateString} ${timeString}`;
+      console.log('state.thingsToQuote: ', state.thingsToQuote);
+      //remove empty keys/values of thingsToQuote
+      const filtered = Object.entries(state.thingsToQuote).filter(
+        ([key, value]) => {
+          console.log('val: ', value);
+          //return non-empty values for each key of thingsToQuote
+          const foundNonEmpty = Object.values(value).filter((each) => {
+            const hasLength = typeof each === 'string' && each.length > 0;
+            const hasChecked =
+              typeof each === 'object' &&
+              each.reduce(function (x, y) {
+                return x + y;
+              }, 0) > 0;
 
-    //prepare collected values for sending
-    const collectedData = {
-      name: enteredName,
-      email: enteredEmail,
-      thingsToQuote: state.thingsToQuote,
-      date: formattedDate,
-    };
+            console.log('hasLength:', hasLength);
+            console.log('hasChecked:', hasChecked);
 
-    onAdd(collectedData);
+            return hasLength === true || hasChecked === true;
+          });
+
+          console.log('foundNonEmpty: ', foundNonEmpty);
+          return foundNonEmpty.length > 0;
+        }
+      );
+
+      console.log('filtered: ', Object.fromEntries(filtered));
+
+      if (filtered.length > 0) {
+        //prepare collected values for sending
+        const collectedData = {
+          name: enteredName,
+          email: enteredEmail,
+          thingsToQuote: Object.fromEntries(filtered),
+          date: formattedDate,
+        };
+        console.log('collectedData: ', collectedData);
+        alert('gonna send');
+        onAdd(collectedData);
+      } else {
+        alert('form empty');
+      }
+    }
   };
 
   return (
@@ -171,7 +232,9 @@ export const QuoteForm = ({ onAdd }) => {
                 id='job-type'
                 value=''
                 label='Job type'
+                name='select'
                 onChange={handleChange}
+                inputRef={selectRef}
               >
                 {state.menuItems.map(({ value, label }, index) => {
                   return (

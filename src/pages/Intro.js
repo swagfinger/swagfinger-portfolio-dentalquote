@@ -53,24 +53,46 @@ export const Intro = () => {
             .sort((a, b) => new Date(b.date) - new Date(a.date))
             .map(({ date, name, email, thingsToQuote, id }, index) => {
               return (
-                <li key={index} style={{ marginBottom: '70px' }}>
-                  <div>
-                    {date} | {name} | {email}
-                  </div>
-                  <div>quote id: {id}</div>
-                  {Object.entries(thingsToQuote).map(([key, value], index) => {
-                    if (typeof value === 'object') {
-                      return (
-                        <TeethChartCheckboxGroup
-                          {...value}
-                          label={key}
-                          key={key}
-                          readOnly={true}
-                        />
+                thingsToQuote && (
+                  <li key={index} style={{ marginBottom: '70px' }}>
+                    <div>
+                      {date} | {name} | {email}
+                    </div>
+                    <div>quote id: {id}</div>
+                    {Object.entries(thingsToQuote).map(([key, value]) => {
+                      //-------------------------------------------------------
+                      // do a dont show if empty object without unique data
+
+                      const notEmptyValues = Object.values(value).filter(
+                        (each) => {
+                          return (
+                            //string length for notes
+                            (typeof each === 'string' && each.length !== 0) ||
+                            //sum of array for teeth array top / bottom
+                            (typeof each === 'object' &&
+                              each.reduce(function (x, y) {
+                                return x + y;
+                              }, 0) > 0)
+                          );
+                        }
                       );
-                    }
-                  })}
-                </li>
+                      console.log('notEmptyValues: ', notEmptyValues);
+
+                      //-------------------------------------------------------
+                      return (
+                        // change check to notEmptyValues.length > -1 to show all
+                        notEmptyValues.length > 0 && (
+                          <TeethChartCheckboxGroup
+                            {...value}
+                            label={key}
+                            key={key}
+                            readOnly={true}
+                          />
+                        )
+                      );
+                    })}
+                  </li>
+                )
               );
             })}
         </ul>
