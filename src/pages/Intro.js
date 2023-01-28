@@ -48,13 +48,23 @@ export const Intro = () => {
       <h1>Quotes</h1>
 
       <div>
-        <ul>
+        <ul style={{ margin: 0, padding: 0 }}>
           {fetchedData
             .sort((a, b) => new Date(b.date) - new Date(a.date))
             .map(({ date, name, email, thingsToQuote, id }, index) => {
               return (
                 thingsToQuote && (
-                  <li key={index} style={{ marginBottom: '70px' }}>
+                  <li
+                    key={index}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'stretch',
+                      border: '1px solid',
+                      marginBottom: '15px',
+                      padding: '30px',
+                    }}
+                  >
                     <div>
                       {date} | {name} | {email}
                     </div>
@@ -80,14 +90,16 @@ export const Intro = () => {
 
                       //-------------------------------------------------------
                       return (
-                        // change check to notEmptyValues.length > -1 to show all
                         notEmptyValues.length > 0 && (
-                          <TeethChartCheckboxGroup
-                            {...value}
-                            label={key}
-                            key={key}
-                            readOnly={true}
-                          />
+                          <>
+                            <h2>{key}</h2>
+                            <TeethChartCheckboxGroup
+                              {...value}
+                              label={key}
+                              key={key}
+                              readOnly={true}
+                            />
+                          </>
                         )
                       );
                     })}

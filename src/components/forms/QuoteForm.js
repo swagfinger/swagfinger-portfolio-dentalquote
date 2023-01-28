@@ -198,87 +198,102 @@ export const QuoteForm = ({ onAdd }) => {
   };
 
   return (
-    <>
-      quote form
-      <Box
-        component='form'
-        sx={{
-          '& > :not(style)': { m: 1, width: '100%' },
-        }}
-        noValidate
-        autoComplete='off'
-        onSubmit={onSubmitHandler}
-      >
-        <FormControl fullWidth>
-          <TextField
-            id='outlined-basic'
-            label='name'
-            variant='outlined'
-            inputRef={nameInputRef}
-          />
-        </FormControl>
-        <FormControl fullWidth>
-          <TextField
-            id='outlined-basic'
-            label='email'
-            variant='outlined'
-            inputRef={emailInputRef}
-          />
-        </FormControl>
-        {state.menuItems.length > 0 && (
-          <div>
-            <h3>add to quote:</h3>
-            <FormControl fullWidth>
-              <InputLabel id='job-type'>Job type</InputLabel>
+    <Box
+      component='form'
+      sx={{
+        '& > :not(style)': { mb: 1, width: '100%' },
+      }}
+      noValidate
+      autoComplete='off'
+      onSubmit={onSubmitHandler}
+    >
+      <FormControl fullWidth>
+        <TextField
+          id='outlined-basic'
+          label='name'
+          variant='outlined'
+          inputRef={nameInputRef}
+        />
+      </FormControl>
+      <FormControl fullWidth>
+        <TextField
+          id='outlined-basic'
+          label='email'
+          variant='outlined'
+          inputRef={emailInputRef}
+        />
+      </FormControl>
+      {state.menuItems.length > 0 && (
+        <div>
+          <h3>add to quote:</h3>
+          <FormControl fullWidth>
+            <InputLabel id='job-type'>Job type</InputLabel>
 
-              <Select
-                labelId='job-type-label'
-                id='job-type'
-                value=''
-                label='Job type'
-                name='select'
-                onChange={handleChange}
-                inputRef={selectRef}
-              >
-                {state.menuItems.map(({ value, label }, index) => {
-                  return (
-                    <MenuItem key={'select_' + index} value={value}>
-                      {label}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-          </div>
-        )}
-        {state.options.length > 0 && (
-          <div>
-            <h3>quote:</h3>
-            <div>
-              {state.options.map((item, index) => {
+            <Select
+              labelId='job-type-label'
+              id='job-type'
+              value=''
+              label='Job type'
+              name='select'
+              onChange={handleChange}
+              inputRef={selectRef}
+            >
+              {state.menuItems.map(({ value, label }, index) => {
                 return (
-                  <div key={'option_' + item.label + item.value}>
-                    <TeethChartCheckboxGroup
-                      label={item.label}
-                      onChange={toothchartUpdateHandler}
-                    />
-                    <button type='button' onClick={() => removeOption(item)}>
-                      remove
-                    </button>
-                    <br />
-                    <br />
-                    <br />
-                  </div>
+                  <MenuItem key={'select_' + index} value={value}>
+                    {label}
+                  </MenuItem>
                 );
               })}
-            </div>
-          </div>
-        )}
-        {/* put multicheckbox here... */}
-        <div className={classes.actions}>
-          <button>submit</button>
+            </Select>
+          </FormControl>
         </div>
-      </Box>
-    </>
+      )}
+      {state.options.length > 0 && (
+        <div>
+          <h3>quote:</h3>
+
+          {state.options.map((item, index) => {
+            return (
+              <div
+                key={'option_' + item.label + item.value}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'stretch',
+                  border: '1px solid',
+                  marginBottom: '15px',
+                  padding: '30px',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    flexGrow: 1,
+                    justifyContent: 'space-between',
+                    marginBottom: '30px',
+                  }}
+                >
+                  <div>{item.label}</div>
+                  <button type='button' onClick={() => removeOption(item)}>
+                    remove
+                  </button>
+                </div>
+
+                <TeethChartCheckboxGroup
+                  label={item.label}
+                  onChange={toothchartUpdateHandler}
+                />
+              </div>
+            );
+          })}
+        </div>
+      )}
+      {/* put multicheckbox here... */}
+      <div className={classes.actions}>
+        <button>submit</button>
+      </div>
+    </Box>
   );
 };

@@ -61,7 +61,6 @@ export const TeethChartCheckboxGroup = ({
 
   return (
     <div>
-      <h3>{label}</h3>
       <FormControl component='fieldset'>
         <FormLabel component='legend'>top teeth</FormLabel>
         <FormGroup aria-label='position' row>
@@ -135,8 +134,6 @@ export const TeethChartCheckboxGroup = ({
           </FormControl>
         </>
       )}
-      <br />
-      <br />
     </div>
   );
 };
