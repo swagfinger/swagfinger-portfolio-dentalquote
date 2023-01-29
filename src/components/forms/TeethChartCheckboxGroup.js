@@ -78,7 +78,7 @@ export const TeethChartCheckboxGroup = ({
                   <Checkbox
                     name={name}
                     checked={tooth === 1 ? true : false}
-                    style={{ padding: 0, margin: '7px 1px' }}
+                    style={{ padding: 0, margin: '7px 0px' }}
                     onChange={(event) => {
                       console.log(name, index, event.target.checked);
                       onTopChangeHandler(index, event.target.checked);
@@ -110,7 +110,7 @@ export const TeethChartCheckboxGroup = ({
                   <Checkbox
                     name={name}
                     checked={tooth === 1 ? true : false}
-                    style={{ padding: 0, margin: '7px 1px' }}
+                    style={{ padding: 0, margin: '7px 0px' }}
                     onChange={(event) => {
                       console.log(name, index, event.target.checked);
                       onBotChangeHandler(index, event.target.checked);

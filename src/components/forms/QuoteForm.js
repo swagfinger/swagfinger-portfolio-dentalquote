@@ -1,5 +1,5 @@
 import classes from './QuoteForm.module.css';
-import { useRef, useReducer } from 'react';
+import { useRef, useReducer, useEffect, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -13,7 +13,8 @@ export const QuoteForm = ({ onAdd }) => {
   console.log('QuoteForm');
   const nameInputRef = useRef();
   const emailInputRef = useRef();
-  const selectRef = useRef();
+
+  const [jobTypes, setJobTypes] = useState([]);
 
   const quoteReducer = (state, action) => {
     switch (action.type) {
@@ -48,18 +49,46 @@ export const QuoteForm = ({ onAdd }) => {
     }
   };
 
-  const MENU = [
-    { label: 'Filling', value: 10 },
-    { label: 'Crowns', value: 20 },
-    { label: 'Veneers', value: 30 },
-  ];
-
   const initialState = {
-    menuItems: MENU.slice(),
+    menuItems: jobTypes,
     options: [],
     thingsToQuote: {},
   };
+
   const [state, dispatch] = useReducer(quoteReducer, initialState);
+
+  useEffect(() => {
+    const getServerData = async () => {
+      const response = await fetch(
+        'https://swagfinger-form-capture-default-rtdb.asia-southeast1.firebasedatabase.app/jobtype/u001.json'
+      );
+      const responseData = await response.json();
+      console.log('responseData: ', responseData);
+      const jobTypes = [];
+      for (const key in responseData) {
+        jobTypes.push({
+          id: key,
+          component: responseData[key].component,
+          label: responseData[key].label,
+          name: responseData[key].name,
+          price: responseData[key].price,
+        });
+      }
+      setJobTypes(jobTypes);
+    };
+    getServerData();
+  }, []);
+
+  useEffect(() => {
+    console.log('gets called');
+    dispatch({
+      type: 'update',
+      payload: {
+        menuItems: jobTypes,
+        options: state.options,
+      },
+    });
+  }, [jobTypes]);
 
   //interacting with select component
   const handleChange = (event) => {
@@ -67,12 +96,12 @@ export const QuoteForm = ({ onAdd }) => {
     console.log('event.target: ', event.target);
 
     let foundItem = state.menuItems.find((item) => {
-      return event.target.value === item.value;
+      return event.target.value === item.price;
     });
 
     //remove from menu
     const updatedMenu = state.menuItems.filter((item) => {
-      return event.target.value !== item.value;
+      return event.target.value !== item.price;
     });
 
     console.log('updatedMenu:', updatedMenu);
@@ -90,7 +119,7 @@ export const QuoteForm = ({ onAdd }) => {
   const removeOption = (item) => {
     //remove that option at index
     const updatedOptions = state.options.filter((option) => {
-      return option.value !== item.value;
+      return option.price !== item.price;
     });
     console.log('updatedOptions:', updatedOptions);
     dispatch({
@@ -236,11 +265,10 @@ export const QuoteForm = ({ onAdd }) => {
               label='Job type'
               name='select'
               onChange={handleChange}
-              inputRef={selectRef}
             >
-              {state.menuItems.map(({ value, label }, index) => {
+              {state.menuItems.map(({ price, label }, index) => {
                 return (
-                  <MenuItem key={'select_' + index} value={value}>
+                  <MenuItem key={'select_' + index} value={price}>
                     {label}
                   </MenuItem>
                 );
@@ -256,7 +284,7 @@ export const QuoteForm = ({ onAdd }) => {
           {state.options.map((item, index) => {
             return (
               <div
-                key={'option_' + item.label + item.value}
+                key={'option_' + item.label + item.price}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',

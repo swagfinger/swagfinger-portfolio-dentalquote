@@ -69,40 +69,42 @@ export const Intro = () => {
                       {date} | {name} | {email}
                     </div>
                     <div>quote id: {id}</div>
-                    {Object.entries(thingsToQuote).map(([key, value]) => {
-                      //-------------------------------------------------------
-                      // do a dont show if empty object without unique data
+                    {Object.entries(thingsToQuote).map(
+                      ([key, value], index) => {
+                        //-------------------------------------------------------
+                        // do a dont show if empty object without unique data
 
-                      const notEmptyValues = Object.values(value).filter(
-                        (each) => {
-                          return (
-                            //string length for notes
-                            (typeof each === 'string' && each.length !== 0) ||
-                            //sum of array for teeth array top / bottom
-                            (typeof each === 'object' &&
-                              each.reduce(function (x, y) {
-                                return x + y;
-                              }, 0) > 0)
-                          );
-                        }
-                      );
-                      console.log('notEmptyValues: ', notEmptyValues);
+                        const notEmptyValues = Object.values(value).filter(
+                          (each) => {
+                            return (
+                              //string length for notes
+                              (typeof each === 'string' && each.length !== 0) ||
+                              //sum of array for teeth array top / bottom
+                              (typeof each === 'object' &&
+                                each.reduce(function (x, y) {
+                                  return x + y;
+                                }, 0) > 0)
+                            );
+                          }
+                        );
+                        console.log('notEmptyValues: ', notEmptyValues);
 
-                      //-------------------------------------------------------
-                      return (
-                        notEmptyValues.length > 0 && (
-                          <>
-                            <h2>{key}</h2>
-                            <TeethChartCheckboxGroup
-                              {...value}
-                              label={key}
-                              key={key}
-                              readOnly={true}
-                            />
-                          </>
-                        )
-                      );
-                    })}
+                        //-------------------------------------------------------
+                        return (
+                          notEmptyValues.length > 0 && (
+                            <div key={index}>
+                              <h2>{key}</h2>
+                              <TeethChartCheckboxGroup
+                                {...value}
+                                label={key}
+                                key={key}
+                                readOnly={true}
+                              />
+                            </div>
+                          )
+                        );
+                      }
+                    )}
                   </li>
                 )
               );
