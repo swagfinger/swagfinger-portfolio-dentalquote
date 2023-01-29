@@ -2,10 +2,10 @@ import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-export const TeethChartChecboxRow = ({
+export const TeethChartCheckboxRow = ({
   label = '',
   readOnly = false,
-  rowPosition = '',
+  rowPosition,
   teethArray = [],
   onChange = () => {},
 }) => {
@@ -21,7 +21,7 @@ export const TeethChartChecboxRow = ({
 
           return (
             <FormControlLabel
-              key={`${rowPosition}index`}
+              key={`${rowPosition}_${index}`}
               control={
                 <Checkbox
                   name={name}

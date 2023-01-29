@@ -7,7 +7,9 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
+
 import { TeethChartCheckboxGroup } from './TeethChartCheckboxGroup';
+import { Counter } from './Counter';
 
 export const QuoteForm = ({ onAdd }) => {
   console.log('QuoteForm');
@@ -56,6 +58,11 @@ export const QuoteForm = ({ onAdd }) => {
   };
 
   const [state, dispatch] = useReducer(quoteReducer, initialState);
+
+  const associatedClasses = {
+    teethchartcheckboxgroup: TeethChartCheckboxGroup,
+    counter: Counter,
+  };
 
   useEffect(() => {
     const getServerData = async () => {
@@ -282,6 +289,8 @@ export const QuoteForm = ({ onAdd }) => {
           <h3>quote:</h3>
 
           {state.options.map((item, index) => {
+            const DynamicComponent =
+              associatedClasses[item.component.toLowerCase()];
             return (
               <div
                 key={'option_' + item.label + item.price}
@@ -309,7 +318,7 @@ export const QuoteForm = ({ onAdd }) => {
                   </button>
                 </div>
 
-                <TeethChartCheckboxGroup
+                <DynamicComponent
                   label={item.label}
                   onChange={toothchartUpdateHandler}
                 />

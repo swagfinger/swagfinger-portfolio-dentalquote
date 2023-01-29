@@ -4,7 +4,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 
-import { TeethChartChecboxRow } from './TeethChartChecboxRow';
+import { TeethChartCheckboxRow } from './TeethChartCheckboxRow';
 export const TeethChartCheckboxGroup = ({
   label,
   totalTeeth = 14,
@@ -61,19 +61,19 @@ export const TeethChartCheckboxGroup = ({
     <div>
       <FormControl component='fieldset' style={{ display: 'flex' }}>
         <FormLabel component='legend'>top teeth</FormLabel>
-        <TeethChartChecboxRow
+        <TeethChartCheckboxRow
           label={label}
           readOnly={readOnly}
-          rowPosition={'top'}
+          rowPosition='top'
           teethArray={topTeethSelected}
           onChange={onTopChangeHandler}
         />
 
         <FormLabel component='legend'>bottom teeth</FormLabel>
-        <TeethChartChecboxRow
+        <TeethChartCheckboxRow
           label={label}
           readOnly={readOnly}
-          rowPosition={'bottom'}
+          rowPosition='bottom'
           teethArray={bottomTeethSelected}
           onChange={onBottomChangeHandler}
         />
