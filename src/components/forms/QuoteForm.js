@@ -1,5 +1,5 @@
 import classes from './QuoteForm.module.css';
-import { useRef, useReducer, useEffect, useState } from 'react';
+import { useRef, useReducer, useEffect, useState, lazy, Suspense } from 'react';
 
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -7,9 +7,6 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-
-import { TeethChartCheckboxGroup } from './TeethChartCheckboxGroup';
-import { Counter } from './Counter';
 
 export const QuoteForm = ({ onAdd }) => {
   console.log('QuoteForm');
@@ -59,15 +56,10 @@ export const QuoteForm = ({ onAdd }) => {
 
   const [state, dispatch] = useReducer(quoteReducer, initialState);
 
-  const associatedClasses = {
-    teethchartcheckboxgroup: TeethChartCheckboxGroup,
-    counter: Counter,
-  };
-
   useEffect(() => {
     const getServerData = async () => {
       const response = await fetch(
-        'https://swagfinger-form-capture-default-rtdb.asia-southeast1.firebasedatabase.app/jobtype/u001.json'
+        'https://swagfinger-form-capture-default-rtdb.asia-southeast1.firebasedatabase.app/users/myid/jobtype/u001.json'
       );
       const responseData = await response.json();
       console.log('responseData: ', responseData);
@@ -289,8 +281,10 @@ export const QuoteForm = ({ onAdd }) => {
           <h3>quote:</h3>
 
           {state.options.map((item, index) => {
-            const DynamicComponent =
-              associatedClasses[item.component.toLowerCase()];
+            //es6 require
+            const DynamicComponent = require('./' + item.component)[
+              item.component
+            ];
             return (
               <div
                 key={'option_' + item.label + item.price}
@@ -317,11 +311,12 @@ export const QuoteForm = ({ onAdd }) => {
                     remove
                   </button>
                 </div>
-
-                <DynamicComponent
-                  label={item.label}
-                  onChange={toothchartUpdateHandler}
-                />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <DynamicComponent
+                    label={item.label}
+                    onChange={toothchartUpdateHandler}
+                  />
+                </Suspense>
               </div>
             );
           })}
