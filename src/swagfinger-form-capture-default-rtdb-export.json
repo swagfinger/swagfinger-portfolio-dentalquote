@@ -1,0 +1,957 @@
+{
+  "quotes": {
+    "-NMns-tpIrgiT3WrFIM-": {
+      "date": "2023-01-27 11:37:04 PM",
+      "email": "clark@gmail.com",
+      "name": "clark",
+      "thingsToQuote": {
+        "vaneer": {
+          "bottomTeeth": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "topTeeth": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "-NMns7KwnbD2gQycnWyC": {
+      "date": "2023-01-27 11:37:35 PM",
+      "email": "clark.cookie@gmail.com",
+      "name": "clark",
+      "thingsToQuote": {
+        "vaneer": {
+          "bottomTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "topTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            0,
+            1,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "-NMntHTsP0o-cz4dVsgt": {
+      "date": "2023-01-27 11:42:39 PM",
+      "email": "jackie@gmail.com",
+      "name": "jackie chan",
+      "thingsToQuote": {
+        "filling": {
+          "bottomTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "topTeeth": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      }
+    },
+    "-NMnuVcUC7ppTb-XvuOy": {
+      "date": "2023-01-27 11:47:59 PM",
+      "email": "tester@gmail.com",
+      "name": "c",
+      "thingsToQuote": {
+        "crown": {
+          "bottomTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "topTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            1
+          ]
+        },
+        "vaneer": {
+          "bottomTeeth": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "topTeeth": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "-NMpz9VtZQS3Yes8G-fp": {
+      "date": "2023-01-28 9:27:34 AM",
+      "email": "hardtest@gmail.com",
+      "name": "tester",
+      "thingsToQuote": {
+        "crown": {
+          "bottomTeeth": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "topTeeth": [
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "filling": {
+          "bottomTeeth": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "topTeeth": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "vaneer": {
+          "bottomTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "topTeeth": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "-NMqAIT6DSyQk-xm1zqq": {
+      "date": "2023-01-28 10:20:36 AM",
+      "email": "notes@gmail.com",
+      "name": "more notes",
+      "thingsToQuote": {
+        "crown": {
+          "bottomTeeth": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "notes": "",
+          "topTeeth": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "-NMqCiekm5S3wVe2QdNP": {
+      "date": "2023-01-28 10:31:12 AM",
+      "email": "more@gmail.com",
+      "name": "morenotes",
+      "thingsToQuote": {
+        "filling": {
+          "bottomTeeth": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "notes": "make the them fillings big",
+          "topTeeth": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "-NMqGv2A53n65Ab3yjAv": {
+      "date": "2023-01-28 10:49:31 AM",
+      "email": "test@gmail.com",
+      "name": "test2",
+      "thingsToQuote": {
+        "crown": {
+          "bottomTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "notes": "this is extra info about crowns",
+          "topTeeth": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0
+          ]
+        },
+        "filling": {
+          "bottomTeeth": [
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "notes": "this is extra info about fillings",
+          "topTeeth": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "vaneer": {
+          "bottomTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "notes": "this is extra info about veneers",
+          "topTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0
+          ]
+        }
+      }
+    },
+    "-NMrdQB6q_AW0CpKuR85": {
+      "date": "2023-01-28 5:11:44 PM",
+      "email": "a",
+      "name": "a",
+      "thingsToQuote": {
+        "crown": {
+          "bottomTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "notes": "",
+          "topTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      }
+    },
+    "-NMs1piypkpSr_t5ZT78": {
+      "date": "2023-01-28 7:02:50 PM",
+      "email": "moo@moo.com",
+      "name": "moo",
+      "thingsToQuote": {
+        "filling": {
+          "bottomTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "notes": "",
+          "topTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1
+          ]
+        },
+        "vaneer": {
+          "bottomTeeth": [
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "notes": "",
+          "topTeeth": [
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "-NMs4w5T2aZWyrlF0DgU": {
+      "date": "2023-01-28 7:16:22 PM",
+      "email": "",
+      "name": "",
+      "thingsToQuote": {
+        "crown": {
+          "bottomTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "notes": "",
+          "topTeeth": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "-NMs8Qg59RHO_q9tXFa-": {
+      "date": "2023-01-28 7:31:39 PM",
+      "email": "",
+      "name": "",
+      "thingsToQuote": {
+        "filling": {
+          "bottomTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "notes": "",
+          "topTeeth": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "-NMsNH4P58WvdwpV9YUq": {
+      "date": "2023-01-28 8:36:32 PM",
+      "email": "mike@gmail.com",
+      "name": "magic mike",
+      "thingsToQuote": {
+        "crown": {
+          "bottomTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            1
+          ],
+          "notes": "",
+          "topTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0
+          ]
+        },
+        "filling": {
+          "bottomTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "notes": "fill missing filling",
+          "topTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "-NMsR_AqUxGgSTEzfhz6": {
+      "date": "2023-01-28 8:55:18 PM",
+      "email": "hi@gmail.com",
+      "name": "hi",
+      "thingsToQuote": {
+        "filling": {
+          "bottomTeeth": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "notes": "",
+          "topTeeth": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "-NMuuo0JtegoBy01tcly": {
+      "date": "2023-01-29 8:26:38 AM",
+      "email": "c",
+      "name": "c",
+      "thingsToQuote": {
+        "crown": {
+          "bottomTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "notes": "",
+          "topTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    "-NMvtNiHFoKs1kafS8T5": {
+      "date": "2023-01-29 1:00:02 PM",
+      "email": "c",
+      "name": "c",
+      "thingsToQuote": {
+        "filling": {
+          "bottomTeeth": [
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "notes": "",
+          "topTeeth": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    }
+  },
+  "users": {
+    "myid": {
+      "jobTypes": {
+        "j1": {
+          "label": "Filling",
+          "name": "filling",
+          "price": 1000
+        },
+        "j2": {
+          "label": "Crown",
+          "name": "crown",
+          "price": 2500
+        },
+        "j3": {
+          "label": "Vaneer",
+          "name": "vaneer",
+          "price": 1500
+        },
+        "j4": {
+          "label": "Mouth guard",
+          "name": "mouthguard",
+          "price": 3500
+        }
+      },
+      "jobTypesComponent": {
+        "crown": {
+          "edit": "TeethChartCheckboxGroup",
+          "view": "TeethChartCheckboxGroup"
+        },
+        "filling": {
+          "edit": "TeethChartCheckboxGroup",
+          "view": "TeethChartCheckboxGroup"
+        },
+        "mouthguard": {
+          "edit": "Counter",
+          "view": "Counter"
+        },
+        "vaneer": {
+          "edit": "TeethChartCheckboxGroup",
+          "view": "TeethChartCheckboxGroup"
+        }
+      }
+    }
+  }
+}

@@ -8,6 +8,8 @@ import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
+import { withNamedExport } from '../../utilities/withNamedExport';
+
 export const QuoteForm = ({ onAdd }) => {
   console.log('QuoteForm');
   const nameInputRef = useRef();
@@ -59,18 +61,25 @@ export const QuoteForm = ({ onAdd }) => {
   useEffect(() => {
     const getServerData = async () => {
       const response = await fetch(
-        'https://swagfinger-form-capture-default-rtdb.asia-southeast1.firebasedatabase.app/users/myid/jobtype/u001.json'
+        'https://swagfinger-form-capture-default-rtdb.asia-southeast1.firebasedatabase.app/users/myid.json'
       );
       const responseData = await response.json();
-      console.log('responseData: ', responseData);
+      console.log('responseData: ', responseData); //returns an object with jobTypes and jobTypesComponent
+
+      // jobTypes
       const jobTypes = [];
-      for (const key in responseData) {
+
+      const responseJobTypes = responseData['jobTypes'];
+      const responseJobTypesComponent = responseData['jobTypesComponent'];
+
+      for (const key in responseData['jobTypes']) {
+        console.log('key: ', key);
         jobTypes.push({
           id: key,
-          component: responseData[key].component,
-          label: responseData[key].label,
-          name: responseData[key].name,
-          price: responseData[key].price,
+          component: responseJobTypesComponent[responseJobTypes[key].name].edit,
+          label: responseJobTypes[key].label,
+          name: responseJobTypes[key].name,
+          price: responseJobTypes[key].price,
         });
       }
       setJobTypes(jobTypes);
@@ -79,12 +88,11 @@ export const QuoteForm = ({ onAdd }) => {
   }, []);
 
   useEffect(() => {
-    console.log('gets called');
     dispatch({
       type: 'update',
       payload: {
         menuItems: jobTypes,
-        options: state.options,
+        options: [],
       },
     });
   }, [jobTypes]);
@@ -129,20 +137,15 @@ export const QuoteForm = ({ onAdd }) => {
       },
     });
 
-    //remove from thingsToQuote
-    const thingsToQuoteTemp = Object.entries(state.thingsToQuote).filter(
-      ([key, value]) => {
-        console.log('key: ', key);
-        console.log('value:', value);
-        return key !== item.label;
-      }
-    );
-
-    console.log('thingsToQuoteTemp:', Object.fromEntries(thingsToQuoteTemp));
-
     dispatch({
       type: 'removeFromThingsToQuote',
-      payload: Object.fromEntries(thingsToQuoteTemp),
+      payload: Object.fromEntries(
+        Object.entries(state.thingsToQuote).filter(([key, value]) => {
+          console.log('key: ', key);
+          console.log('value:', value);
+          return key !== item.label;
+        })
+      ),
     });
   };
 
@@ -282,9 +285,13 @@ export const QuoteForm = ({ onAdd }) => {
 
           {state.options.map((item, index) => {
             //es6 require
-            const DynamicComponent = require('./' + item.component)[
-              item.component
-            ];
+
+            const DynamicComponent = lazy(() =>
+              import(`./${item.component}`).then(
+                withNamedExport(item.component)
+              )
+            );
+
             return (
               <div
                 key={'option_' + item.label + item.price}

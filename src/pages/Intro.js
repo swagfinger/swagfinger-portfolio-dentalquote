@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { TeethChartCheckboxGroup } from '../components/forms/TeethChartCheckboxGroup';
 
+import { withNamedExport } from '../utilities/withNamedExport';
+
 export const Intro = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [fetchedData, setFetchedData] = useState([]);
