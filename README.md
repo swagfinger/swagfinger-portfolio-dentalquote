@@ -1,3 +1,35 @@
+## Quoting
+
+- the idea is that "shop" owners can generate their own inventory of what people can ask quote for.
+- so the "owner" can specify items to show in the select element
+- TODO: am restricted because using free tier so cannot make another database for same project but can use workaround by authentication and restricting "owner" to their own section of database in Firebase.
+- TODO: create a form so owner can edit their own job types - currently this is edited directly in the firebase database.
+
+### jobTypes
+
+- the term jobTypes will be changed to be more generic but its essentially a list of things that can be in the quote
+- each key has the word describing the jobtype as the key - needs to be unique
+- each key has: label, price associated
+
+## jobTypesComponent
+
+- this is to make developer life easier by creating a mirror of keys same as 'jobTypes' and each key specifies 'view' and 'edit' which is the component to use when generating the form
+
+<!-- ----------------------------- -->
+
+## pages/Intro
+
+- lists quotes on db
+
+## pages/Shop
+
+- has QuoteForm component
+- handles what to do when submit `<QuoteForm onAdd={onAddQuoteHandler} />`
+
+## components/forms/QuoteForm
+
+- form where data is entered
+
 ## react router 5 + fetching firebase data
 
 - this is a continuation from https://github.com/swagfinger/swagfinger-testing-react-router-5-and-forms.git

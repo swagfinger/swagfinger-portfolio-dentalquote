@@ -908,30 +908,68 @@
           ]
         }
       }
+    },
+    "-NN-VjSQKbJV0tUsQvqK": {
+      "date": "2023-01-30 10:30:27 AM",
+      "email": "clark@test.com",
+      "name": "clark",
+      "thingsToQuote": {
+        "crown": {
+          "bottomTeeth": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "notes": "",
+          "topTeeth": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
     }
   },
   "users": {
     "myid": {
       "jobTypes": {
-        "j1": {
-          "label": "Filling",
-          "name": "filling",
-          "price": 1000
-        },
-        "j2": {
+        "crown": {
           "label": "Crown",
-          "name": "crown",
           "price": 2500
         },
-        "j3": {
-          "label": "Vaneer",
-          "name": "vaneer",
-          "price": 1500
+        "filling": {
+          "label": "Filling",
+          "price": 1000
         },
-        "j4": {
+        "mouthguard": {
           "label": "Mouth guard",
-          "name": "mouthguard",
           "price": 3500
+        },
+        "vaneer": {
+          "label": "Vaneer",
+          "price": 1500
         }
       },
       "jobTypesComponent": {

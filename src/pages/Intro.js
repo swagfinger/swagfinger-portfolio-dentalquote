@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { TeethChartCheckboxGroup } from '../components/forms/TeethChartCheckboxGroup';
-
-import { withNamedExport } from '../utilities/withNamedExport';
+import { TeethChartCheckboxGroup } from '../components';
+import { filterObjectEmptyData } from '../utilities/filterObjectEmptyData';
 
 export const Intro = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -51,6 +50,7 @@ export const Intro = () => {
 
       <div>
         <ul style={{ margin: 0, padding: 0 }}>
+          {/* go through fetched data: quotes table*/}
           {fetchedData
             .sort((a, b) => new Date(b.date) - new Date(a.date))
             .map(({ date, name, email, thingsToQuote, id }, index) => {
@@ -71,29 +71,17 @@ export const Intro = () => {
                       {date} | {name} | {email}
                     </div>
                     <div>quote id: {id}</div>
+
+                    {/* each quote has a thingsToQuote property - go through this list*/}
                     {Object.entries(thingsToQuote).map(
                       ([key, value], index) => {
                         //-------------------------------------------------------
                         // do a dont show if empty object without unique data
-
-                        const notEmptyValues = Object.values(value).filter(
-                          (each) => {
-                            return (
-                              //string length for notes
-                              (typeof each === 'string' && each.length !== 0) ||
-                              //sum of array for teeth array top / bottom
-                              (typeof each === 'object' &&
-                                each.reduce(function (x, y) {
-                                  return x + y;
-                                }, 0) > 0)
-                            );
-                          }
-                        );
-                        console.log('notEmptyValues: ', notEmptyValues);
+                        const filteredData = filterObjectEmptyData(value);
 
                         //-------------------------------------------------------
                         return (
-                          notEmptyValues.length > 0 && (
+                          filteredData.length > 0 && (
                             <div key={index}>
                               <h2>{key}</h2>
                               <TeethChartCheckboxGroup

@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 
 import { TeethChartCheckboxRow } from './TeethChartCheckboxRow';
 export const TeethChartCheckboxGroup = ({
-  label,
+  id,
   totalTeeth = 14,
   topTeeth = [],
   bottomTeeth = [],
@@ -24,32 +24,37 @@ export const TeethChartCheckboxGroup = ({
   const [notesForJob, setNotesForJob] = useState(notes.length ? notes : '');
 
   useEffect(() => {
-    console.log('--------------------------------------------');
-    console.log(`${label}`);
-    console.log('topTeethSelected: ', topTeethSelected);
-    console.log('bottomTeethSelected: ', bottomTeethSelected);
-    console.log('--------------------------------------------');
+    // console.log('--------------------------------------------');
+    // console.log(`${label}`);
+    // console.log('topTeethSelected: ', topTeethSelected);
+    // console.log('bottomTeethSelected: ', bottomTeethSelected);
+    // console.log('--------------------------------------------');
 
+    //pass to calling handler function
     onChange({
-      label: label,
-      topTeeth: topTeethSelected,
-      bottomTeeth: bottomTeethSelected,
-      notes: notesForJob,
+      jobType: id,
+      saveData: {
+        topTeeth: topTeethSelected,
+        bottomTeeth: bottomTeethSelected,
+        notes: notesForJob,
+      },
     });
   }, [topTeethSelected, bottomTeethSelected, notesForJob]);
 
-  const onTopChangeHandler = (index, checked) => {
-    console.log(index, checked);
-    const newValues = [...topTeethSelected];
-    newValues[index] = checked ? 1 : 0;
-    setTopTeethSelected(newValues);
-  };
+  const onRowChangeHandler = (rowPosition, index, checked) => {
+    console.log(rowPosition, index, checked);
 
-  const onBottomChangeHandler = (index, checked) => {
-    console.log(index, checked);
-    const newValues = [...bottomTeethSelected];
+    //create a copy of the current *TeethSelected state
+    const newValues =
+      rowPosition === 'top' ? [...topTeethSelected] : [...bottomTeethSelected];
+
+    //change 'true'/'false' values to 1s and 0s
     newValues[index] = checked ? 1 : 0;
-    setBottomTeethSelected(newValues);
+
+    //update *TeethSelected state
+    rowPosition === 'top'
+      ? setTopTeethSelected(newValues)
+      : setBottomTeethSelected(newValues);
   };
 
   const onNotesChangeHandler = (event) => {
@@ -62,20 +67,20 @@ export const TeethChartCheckboxGroup = ({
       <FormControl component='fieldset' style={{ display: 'flex' }}>
         <FormLabel component='legend'>top teeth</FormLabel>
         <TeethChartCheckboxRow
-          label={label}
+          id={id}
           readOnly={readOnly}
           rowPosition='top'
           teethArray={topTeethSelected}
-          onChange={onTopChangeHandler}
+          onChange={onRowChangeHandler}
         />
 
         <FormLabel component='legend'>bottom teeth</FormLabel>
         <TeethChartCheckboxRow
-          label={label}
+          id={id}
           readOnly={readOnly}
           rowPosition='bottom'
           teethArray={bottomTeethSelected}
-          onChange={onBottomChangeHandler}
+          onChange={onRowChangeHandler}
         />
       </FormControl>
 

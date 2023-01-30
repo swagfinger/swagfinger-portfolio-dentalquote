@@ -3,6 +3,7 @@ import { QuoteForm } from '../components/forms';
 export const Shop = () => {
   const history = useHistory();
 
+  //this is the part that saves data to database
   const onAddQuoteHandler = async (collectedData) => {
     console.log(collectedData);
     await fetch(

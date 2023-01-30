@@ -1,5 +1,5 @@
 import classes from './QuoteForm.module.css';
-import { useRef, useReducer, useEffect, useState, lazy, Suspense } from 'react';
+import { useRef, useReducer, useEffect, useState, Suspense, lazy } from 'react';
 
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -8,6 +8,7 @@ import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
+import { filterObjectEmptyData } from '../../utilities/filterObjectEmptyData';
 import { withNamedExport } from '../../utilities/withNamedExport';
 
 export const QuoteForm = ({ onAdd }) => {
@@ -17,6 +18,9 @@ export const QuoteForm = ({ onAdd }) => {
 
   const [jobTypes, setJobTypes] = useState([]);
 
+  // -----------------------------------------------------------------------------------
+  //reducers
+
   const quoteReducer = (state, action) => {
     switch (action.type) {
       case 'thingsToQuote':
@@ -24,21 +28,28 @@ export const QuoteForm = ({ onAdd }) => {
           ...state,
           thingsToQuote: {
             ...state.thingsToQuote,
-            [action.payload.label]: {
-              topTeeth: action.payload.topTeeth,
-              bottomTeeth: action.payload.bottomTeeth,
-              notes: action.payload.notes,
-            },
+            // key is the jobType
+            //value is what to save for the job type
+            [action.payload.jobType]: action.payload.saveData,
           },
         };
-      case 'removeFromThingsToQuote':
-        const updated = { ...action.payload };
+      case 'cleanupThingsToQuote':
         return {
           ...state,
-          thingsToQuote: updated,
+          thingsToQuote: action.payload.thingsToQuote,
         };
+      default:
+        return state;
+    }
+  };
 
-      case 'update':
+  const [quoteState, quoteDispatch] = useReducer(quoteReducer, {
+    thingsToQuote: {},
+  });
+
+  const selectReducer = (state, action) => {
+    switch (action.type) {
+      case 'updateSelect':
         console.log('payload: ', action.payload);
         return {
           ...state,
@@ -50,13 +61,13 @@ export const QuoteForm = ({ onAdd }) => {
     }
   };
 
-  const initialState = {
+  const [selectState, selectDispatch] = useReducer(selectReducer, {
     menuItems: jobTypes,
     options: [],
-    thingsToQuote: {},
-  };
+  });
 
-  const [state, dispatch] = useReducer(quoteReducer, initialState);
+  // -----------------------------------------------------------------------------------
+  // useEffects
 
   useEffect(() => {
     const getServerData = async () => {
@@ -69,17 +80,15 @@ export const QuoteForm = ({ onAdd }) => {
       // jobTypes
       const jobTypes = [];
 
-      const responseJobTypes = responseData['jobTypes'];
-      const responseJobTypesComponent = responseData['jobTypesComponent'];
+      const fetchedJobTypes = responseData['jobTypes'];
+      const fetchedJobTypesComponent = responseData['jobTypesComponent'];
 
-      for (const key in responseData['jobTypes']) {
-        console.log('key: ', key);
+      for (const key in fetchedJobTypes) {
         jobTypes.push({
           id: key,
-          component: responseJobTypesComponent[responseJobTypes[key].name].edit,
-          label: responseJobTypes[key].label,
-          name: responseJobTypes[key].name,
-          price: responseJobTypes[key].price,
+          component: fetchedJobTypesComponent[key].edit, //the edit component (see firebase db)
+          label: fetchedJobTypes[key].label,
+          price: fetchedJobTypes[key].price,
         });
       }
       setJobTypes(jobTypes);
@@ -88,8 +97,8 @@ export const QuoteForm = ({ onAdd }) => {
   }, []);
 
   useEffect(() => {
-    dispatch({
-      type: 'update',
+    selectDispatch({
+      type: 'updateSelect',
       payload: {
         menuItems: jobTypes,
         options: [],
@@ -97,67 +106,74 @@ export const QuoteForm = ({ onAdd }) => {
     });
   }, [jobTypes]);
 
-  //interacting with select component
-  const handleChange = (event) => {
+  // -----------------------------------------------------------------------------------
+  //select handlers
+
+  //interacting with select component - find Select value
+  const handleSelectChange = (event) => {
     //get item in menu
     console.log('event.target: ', event.target);
 
-    let foundItem = state.menuItems.find((item) => {
-      return event.target.value === item.price;
+    let foundItem = selectState.menuItems.find((item) => {
+      return event.target.value === item.id;
     });
 
     //remove from menu
-    const updatedMenu = state.menuItems.filter((item) => {
-      return event.target.value !== item.price;
+    const updatedMenu = selectState.menuItems.filter((item) => {
+      return event.target.value !== item.id;
     });
 
     console.log('updatedMenu:', updatedMenu);
 
-    dispatch({
-      type: 'update',
+    selectDispatch({
+      type: 'updateSelect',
       payload: {
         menuItems: updatedMenu,
-        options: [...state.options, foundItem],
+        options: [...selectState.options, foundItem],
       },
     });
   };
 
   //remove from options
-  const removeOption = (item) => {
+  const removeFormComponent = (item) => {
     //remove that option at index
-    const updatedOptions = state.options.filter((option) => {
-      return option.price !== item.price;
+    const updatedOptions = selectState.options.filter((option) => {
+      return option.id !== item.id;
     });
     console.log('updatedOptions:', updatedOptions);
-    dispatch({
-      type: 'update',
+    selectDispatch({
+      type: 'updateSelect',
       payload: {
-        menuItems: [...state.menuItems, item],
+        menuItems: [...selectState.menuItems, item],
         options: updatedOptions,
       },
     });
 
-    dispatch({
-      type: 'removeFromThingsToQuote',
-      payload: Object.fromEntries(
-        Object.entries(state.thingsToQuote).filter(([key, value]) => {
-          console.log('key: ', key);
-          console.log('value:', value);
-          return key !== item.label;
-        })
-      ),
+    //for <select> - but quote related
+    quoteDispatch({
+      type: 'cleanupThingsToQuote',
+      payload: {
+        thingsToQuote: Object.fromEntries(
+          // value is set as 'id' in select
+          Object.entries(quoteState.thingsToQuote).filter(([key, value]) => {
+            console.log('key: ', key);
+            console.log('value:', value);
+            return key !== item.id; //compare the selected "id" to thingsToQuote[id]
+          })
+        ),
+      },
     });
   };
+  // -----------------------------------------------------------------------------------
 
-  const toothchartUpdateHandler = (updateObject) => {
+  //quote related
+  const formComponentUpdateHandler = (updateObject) => {
     console.log('at parent: ', updateObject);
-    dispatch({
+    quoteDispatch({
       type: 'thingsToQuote',
       payload: {
-        label: updateObject.label,
-        topTeeth: updateObject.topTeeth,
-        bottomTeeth: updateObject.bottomTeeth,
-        notes: updateObject.notes,
+        jobType: updateObject.jobType,
+        saveData: updateObject.saveData,
       },
     });
   };
@@ -170,9 +186,9 @@ export const QuoteForm = ({ onAdd }) => {
     //read access via current property
     const enteredName = nameInputRef.current.value;
     const enteredEmail = emailInputRef.current.value;
-    console.log('thingsToQuote: ', state.thingsToQuote);
+    console.log('thingsToQuote: ', quoteState.thingsToQuote);
     if (
-      Object.keys(state.thingsToQuote).length === 0 ||
+      Object.keys(quoteState.thingsToQuote).length === 0 ||
       enteredName.length === 0 ||
       enteredEmail.length === 0
     ) {
@@ -184,32 +200,13 @@ export const QuoteForm = ({ onAdd }) => {
       let timeString = date.toLocaleTimeString();
       let formattedDate = `${dateString} ${timeString}`;
 
-      console.log('state.thingsToQuote: ', state.thingsToQuote);
       //remove empty keys/values of thingsToQuote
-      const filtered = Object.entries(state.thingsToQuote).filter(
+      const filtered = Object.entries(quoteState.thingsToQuote).filter(
         ([key, value]) => {
-          console.log('val: ', value);
           //return non-empty values for each key of thingsToQuote
-          const foundNonEmpty = Object.values(value).filter((each) => {
-            const hasLength = typeof each === 'string' && each.length > 0;
-            const hasChecked =
-              typeof each === 'object' &&
-              each.reduce(function (x, y) {
-                return x + y;
-              }, 0) > 0;
-
-            console.log('hasLength:', hasLength);
-            console.log('hasChecked:', hasChecked);
-
-            return hasLength === true || hasChecked === true;
-          });
-
-          console.log('foundNonEmpty: ', foundNonEmpty);
-          return foundNonEmpty.length > 0;
+          return filterObjectEmptyData(value).length > 0;
         }
       );
-
-      console.log('filtered: ', Object.fromEntries(filtered));
 
       if (filtered.length > 0) {
         //prepare collected values for sending
@@ -228,6 +225,9 @@ export const QuoteForm = ({ onAdd }) => {
     }
   };
 
+  // -----------------------------------------------------------------------------------
+
+  // form
   return (
     <Box
       component='form'
@@ -238,6 +238,7 @@ export const QuoteForm = ({ onAdd }) => {
       autoComplete='off'
       onSubmit={onSubmitHandler}
     >
+      {/* name field */}
       <FormControl fullWidth>
         <TextField
           id='outlined-basic'
@@ -246,6 +247,8 @@ export const QuoteForm = ({ onAdd }) => {
           inputRef={nameInputRef}
         />
       </FormControl>
+
+      {/* email field */}
       <FormControl fullWidth>
         <TextField
           id='outlined-basic'
@@ -254,7 +257,10 @@ export const QuoteForm = ({ onAdd }) => {
           inputRef={emailInputRef}
         />
       </FormControl>
-      {state.menuItems.length > 0 && (
+
+      {/*  ----------------------------------------------------------------------------------- */}
+      {/* select component */}
+      {selectState.menuItems.length > 0 && (
         <div>
           <h3>add to quote:</h3>
           <FormControl fullWidth>
@@ -266,11 +272,12 @@ export const QuoteForm = ({ onAdd }) => {
               value=''
               label='Job type'
               name='select'
-              onChange={handleChange}
+              onChange={handleSelectChange}
             >
-              {state.menuItems.map(({ price, label }, index) => {
+              {selectState.menuItems.map(({ id, label }, index) => {
                 return (
-                  <MenuItem key={'select_' + index} value={price}>
+                  // price doesnt matter here... using id for unique checking...
+                  <MenuItem key={'select_' + index} value={id} label={label}>
                     {label}
                   </MenuItem>
                 );
@@ -279,22 +286,26 @@ export const QuoteForm = ({ onAdd }) => {
           </FormControl>
         </div>
       )}
-      {state.options.length > 0 && (
+      {/*  ----------------------------------------------------------------------------------- */}
+      {/* once selected...removed from select, move to quote */}
+      {selectState.options.length > 0 && (
         <div>
           <h3>quote:</h3>
+          {/* put form components here... */}
+          {selectState.options.map((item, index) => {
+            //dynamically lazy load the component
 
-          {state.options.map((item, index) => {
-            //es6 require
-
-            const DynamicComponent = lazy(() =>
-              import(`./${item.component}`).then(
-                withNamedExport(item.component)
-              )
-            );
+            //@path - relative to where its loading from, @component
+            //withNamedExport() ensures the imported file has export default if it is a named export
+            const DynamicComponent = lazy(() => {
+              return import('../' + item.component).then((module) =>
+                withNamedExport(item.component)(module)
+              );
+            });
 
             return (
               <div
-                key={'option_' + item.label + item.price}
+                key={'option_' + item.id}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -314,14 +325,17 @@ export const QuoteForm = ({ onAdd }) => {
                   }}
                 >
                   <div>{item.label}</div>
-                  <button type='button' onClick={() => removeOption(item)}>
+                  <button
+                    type='button'
+                    onClick={() => removeFormComponent(item)}
+                  >
                     remove
                   </button>
                 </div>
                 <Suspense fallback={<div>Loading...</div>}>
                   <DynamicComponent
-                    label={item.label}
-                    onChange={toothchartUpdateHandler}
+                    id={item.id}
+                    onChange={formComponentUpdateHandler}
                   />
                 </Suspense>
               </div>
@@ -329,7 +343,7 @@ export const QuoteForm = ({ onAdd }) => {
           })}
         </div>
       )}
-      {/* put multicheckbox here... */}
+
       <div className={classes.actions}>
         <button>submit</button>
       </div>
