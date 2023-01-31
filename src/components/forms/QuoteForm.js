@@ -1,5 +1,5 @@
 import classes from './QuoteForm.module.css';
-import { useRef, useReducer, useEffect, useState, Suspense, lazy } from 'react';
+import { useRef, useReducer, useEffect, useState, Suspense } from 'react';
 
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
@@ -9,7 +9,12 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
 import { filterObjectEmptyData } from '../../utilities/filterObjectEmptyData';
-import { withNamedExport } from '../../utilities/withNamedExport';
+// import { withNamedExport } from '../../utilities/withNamedExport';
+
+import { MouthGuardCheckboxGroup } from '../MouthGuardCheckboxGroup';
+import { TeethChartCheckboxGroup } from '../TeethChartCheckboxGroup';
+
+import { QuoteFormGetData } from './QuoteFormGetData';
 
 export const QuoteForm = ({ onAdd }) => {
   console.log('QuoteForm');
@@ -17,6 +22,11 @@ export const QuoteForm = ({ onAdd }) => {
   const emailInputRef = useRef();
 
   const [jobTypes, setJobTypes] = useState([]);
+
+  const associatedClasses = {
+    TeethChartCheckboxGroup,
+    MouthGuardCheckboxGroup,
+  };
 
   // -----------------------------------------------------------------------------------
   //reducers
@@ -65,37 +75,41 @@ export const QuoteForm = ({ onAdd }) => {
     menuItems: jobTypes,
     options: [],
   });
+  // -----------------------------------------------------------------------------------
+  //functions
+
+  //takes fetched data and builds a jobTypes[] of objects: {id (key), component, label, price}
+  const processFetchedData = (responseData) => {
+    const jobTypes = [];
+
+    const fetchedJobTypes = responseData['jobTypes'];
+    const fetchedJobTypesComponent = responseData['jobTypesComponent'];
+    console.log('fetchedJobTypes:', fetchedJobTypes);
+
+    for (const key in fetchedJobTypes) {
+      jobTypes.push({
+        id: key,
+        component: fetchedJobTypesComponent[key].edit, //the edit component (see firebase db)
+        label: fetchedJobTypes[key].label,
+        price: fetchedJobTypes[key].price,
+      });
+    }
+    setJobTypes(jobTypes);
+  };
 
   // -----------------------------------------------------------------------------------
   // useEffects
 
   useEffect(() => {
-    const getServerData = async () => {
-      const response = await fetch(
-        'https://swagfinger-form-capture-default-rtdb.asia-southeast1.firebasedatabase.app/users/myid.json'
-      );
-      const responseData = await response.json();
-      console.log('responseData: ', responseData); //returns an object with jobTypes and jobTypesComponent
-
-      // jobTypes
-      const jobTypes = [];
-
-      const fetchedJobTypes = responseData['jobTypes'];
-      const fetchedJobTypesComponent = responseData['jobTypesComponent'];
-
-      for (const key in fetchedJobTypes) {
-        jobTypes.push({
-          id: key,
-          component: fetchedJobTypesComponent[key].edit, //the edit component (see firebase db)
-          label: fetchedJobTypes[key].label,
-          price: fetchedJobTypes[key].price,
-        });
-      }
-      setJobTypes(jobTypes);
+    //async
+    const getData = async () => {
+      const responseData = await QuoteFormGetData();
+      processFetchedData(responseData);
     };
-    getServerData();
+    getData();
   }, []);
 
+  //if the loaded <select> data updates
   useEffect(() => {
     selectDispatch({
       type: 'updateSelect',
@@ -149,7 +163,8 @@ export const QuoteForm = ({ onAdd }) => {
       },
     });
 
-    //for <select> - but quote related
+    //for <select> - but quote related - when item is removed from quote, it goes back as an select option
+    //if there was related information that was in thingsToQuote, it needs to be cleaned out.
     quoteDispatch({
       type: 'cleanupThingsToQuote',
       payload: {
@@ -171,6 +186,8 @@ export const QuoteForm = ({ onAdd }) => {
     console.log('at parent: ', updateObject);
     quoteDispatch({
       type: 'thingsToQuote',
+
+      //this is the structure of payload for all components that save in thingsToQuote
       payload: {
         jobType: updateObject.jobType,
         saveData: updateObject.saveData,
@@ -187,6 +204,7 @@ export const QuoteForm = ({ onAdd }) => {
     const enteredName = nameInputRef.current.value;
     const enteredEmail = emailInputRef.current.value;
     console.log('thingsToQuote: ', quoteState.thingsToQuote);
+
     if (
       Object.keys(quoteState.thingsToQuote).length === 0 ||
       enteredName.length === 0 ||
@@ -203,6 +221,7 @@ export const QuoteForm = ({ onAdd }) => {
       //remove empty keys/values of thingsToQuote
       const filtered = Object.entries(quoteState.thingsToQuote).filter(
         ([key, value]) => {
+          console.log('key: ', key);
           //return non-empty values for each key of thingsToQuote
           return filterObjectEmptyData(value).length > 0;
         }
@@ -294,14 +313,17 @@ export const QuoteForm = ({ onAdd }) => {
           {/* put form components here... */}
           {selectState.options.map((item, index) => {
             //dynamically lazy load the component
-
             //@path - relative to where its loading from, @component
             //withNamedExport() ensures the imported file has export default if it is a named export
-            const DynamicComponent = lazy(() => {
-              return import('../' + item.component).then((module) =>
-                withNamedExport(item.component)(module)
-              );
-            });
+            //causes flickering when coponent update due to it only appearing after imported
+            // const DynamicComponent = lazy(() => {
+            //   return import('../' + item.component).then((module) =>
+            //     withNamedExport(item.component)(module)
+            //   );
+            // });
+
+            //form component classes are predefined in associatedClasses
+            const DynamicComponent = associatedClasses[item.component];
 
             return (
               <div

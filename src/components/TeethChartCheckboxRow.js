@@ -1,7 +1,6 @@
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-
 export const TeethChartCheckboxRow = ({
   id = '',
   readOnly = false,
@@ -10,23 +9,24 @@ export const TeethChartCheckboxRow = ({
   onChange = () => {},
 }) => {
   return (
-    <>
-      <FormGroup
-        aria-label='position'
-        row
-        style={{ display: 'flex', justifyContent: 'space-evenly' }}
-      >
-        {teethArray.map((tooth, index) => {
-          const name = `${id}_${rowPosition}`;
+    <FormGroup
+      aria-label='position'
+      row
+      style={{
+        display: 'flex',
+      }}
+    >
+      {teethArray.map((tooth, index) => {
+        const name = `${id}_${rowPosition}`;
 
-          return (
+        return (
+          <div key={`${rowPosition}_${index}`}>
             <FormControlLabel
-              key={`${rowPosition}_${index}`}
               control={
                 <Checkbox
                   name={name}
                   checked={!!tooth} //converts 1's and 0's to boolean
-                  style={{ padding: 0, margin: '7px 0px' }}
+                  style={{ padding: 0, margin: '7px 1px' }}
                   onChange={(event) => {
                     console.log(name, index, event.target.checked);
                     onChange(rowPosition, index, event.target.checked);
@@ -38,9 +38,9 @@ export const TeethChartCheckboxRow = ({
               labelPlacement='bottom'
               style={{ padding: 0, margin: 0 }}
             />
-          );
-        })}
-      </FormGroup>
-    </>
+          </div>
+        );
+      })}
+    </FormGroup>
   );
 };

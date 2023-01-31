@@ -38,8 +38,13 @@ export const TeethChartCheckboxGroup = ({
         bottomTeeth: bottomTeethSelected,
         notes: notesForJob,
       },
+      validate: validate,
     });
   }, [topTeethSelected, bottomTeethSelected, notesForJob]);
+
+  const validate = () => {
+    console.log('hello..');
+  };
 
   const onRowChangeHandler = (rowPosition, index, checked) => {
     console.log(rowPosition, index, checked);
@@ -73,7 +78,7 @@ export const TeethChartCheckboxGroup = ({
           teethArray={topTeethSelected}
           onChange={onRowChangeHandler}
         />
-
+        <br />
         <FormLabel component='legend'>bottom teeth</FormLabel>
         <TeethChartCheckboxRow
           id={id}

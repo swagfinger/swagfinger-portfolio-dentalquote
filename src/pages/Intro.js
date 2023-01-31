@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { TeethChartCheckboxGroup } from '../components';
+import { TeethChartCheckboxGroup } from '../components/TeethChartCheckboxGroup';
 import { filterObjectEmptyData } from '../utilities/filterObjectEmptyData';
 
 export const Intro = () => {
